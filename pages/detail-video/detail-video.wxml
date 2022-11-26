@@ -1,7 +1,7 @@
 <!--pages/detail-video/detail-video.wxml-->
 
 <wxs src="../../utils/format.wxs" module="fmt"></wxs>
-<video class="video" src="{{mvUrl}}" autoplay></video>
+<video class="video" src="{{mvUrl}}" 	enable-danmu danmu-btn 	danmu-list="{{danmuList}}" autoplay></video>
 
 <scroll-view class="content" scroll-y>
   <view class="info">
