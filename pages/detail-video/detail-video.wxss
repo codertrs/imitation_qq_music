@@ -1,0 +1,65 @@
+/* pages/detail-video/detail-video.wxss */
+
+page{
+  height: 100vh;
+}
+
+.video{
+  width: 100%;
+}
+
+.content{
+  margin-top: 10rpx;
+  height: calc(100% - 225px);
+}
+
+.info{
+  padding: 0 20rpx;
+}
+
+.info .title{
+  font-weight: 600;
+  font-size: 38rpx;
+}
+
+.info .artis-name .playCount-date{
+  font-size: 30rpx;
+  font-weight:bold;
+}
+
+.related-video{
+  margin-top: 36rpx;
+}
+
+.recommended_video{
+  font-weight: 500;
+  font-size: 34rpx;
+  padding: 20rpx;
+}
+
+.item{
+  width: 100%;
+  display: flex;
+  padding: 20rpx;
+  box-sizing: border-box;
+  
+}
+.item-img{
+  border-radius: 16rpx;
+  width: 100%;
+}
+.item-title {
+  margin: 0 20rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+
+}
+
+.user_name{
+  padding: 10rpx 0;
+  font-size: 22rpx;
+
+}
+

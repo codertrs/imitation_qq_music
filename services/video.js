@@ -12,6 +12,7 @@ export function getTopMV(offset = 0, limit = 20) {
   })
 }
 
+//获取 mv 播放地址
 export function getMVUrl(id) {
   return rsRequest.get({
     url: "/mv/url",
@@ -21,6 +22,7 @@ export function getMVUrl(id) {
   })
 }
 
+//可获取不同排行榜数据
 export function getMVInfo(mvid) {
   return rsRequest.get({
     url: "/mv/detail",
@@ -30,6 +32,7 @@ export function getMVInfo(mvid) {
   })
 }
 
+//获取相关视频
 export function getMVRelated(id) {
   return rsRequest.get({
     url: "/related/allvideo",
