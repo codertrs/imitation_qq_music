@@ -1,18 +1,26 @@
 // pages/main-music/main-music.js
+import { getMusicBanner, getSongMenuList } from "../../services/music"
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    banners:[]
 
+  },
+
+  async fetchMusicBanner(){
+     const res=await getMusicBanner();
+   
+     this.setData({ banners: res.banners })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.fetchMusicBanner()
   },
 
   /**

@@ -15,9 +15,9 @@ Page({
     mvInfo: {},
     relatedVideo: [],
     danmuList:[
-      {text:"弹幕测试1",color:"#ff0000",time:3},
-      { text: "哎呦, 不错哦", color: "#ffff00", time: 10 },
-      { text: "嘿嘿, 好喜欢", color: "#0000ff", time: 15 },
+      {text:"哎呦, 不错哦",color:"#ff0000",time:3},
+      { text: "哎呦, 不错哦!!!", color: "#ffff00", time: 10 },
+      { text: "嘿嘿, 真不错", color: "#0000ff", time: 15 },
     ]
   },
 
@@ -58,7 +58,6 @@ Page({
   //获取相关视频
   async fetchMVRelated() {
     const res = await getMVRelated(this.data.id)
-    console.log("relatedVideo",res);
     this.setData({
       relatedVideo: res.data
     })

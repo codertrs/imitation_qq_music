@@ -1,1 +1,16 @@
 /* pages/main-music/main-music.wxss */
+
+page {
+ padding: 0 24rpx;
+ box-sizing: border-box;
+}
+
+.banner-image {
+  width: 100%;
+}
+.banner {
+  border-radius: 12rpx;
+  overflow: hidden;
+
+
+}

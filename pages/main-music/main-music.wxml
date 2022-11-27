@@ -1,2 +1,11 @@
 <!--pages/main-music/main-music.wxml-->
-<text>音乐</text>
+
+
+<!-- 轮播图展示 -->
+<swiper class="banner"    circular  indicator-dots>
+  <block wx:for="{{banners}}" wx:key="targetId">
+    <swiper-item class="item">
+      <image class="banner-image" mode="widthFix" src="{{item.imageUrl}}"></image>
+    </swiper-item>
+  </block>
+</swiper>
