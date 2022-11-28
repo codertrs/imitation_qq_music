@@ -1,19 +1,54 @@
 // pages/main-music/main-music.js
-import { getMusicBanner, getSongMenuList } from "../../services/music"
+import {
+  getMusicBanner,
+  getSongMenuList,
+  getPlaylistDetail
+} from "../../services/music"
+import querySelect from "../../utils/query.select"
+
+import {
+  throttle
+} from "underscore"
+
+const querySelectThrottle = throttle(querySelect, 100)
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    banners:[]
+    banners: [],
+    bannerHeight: 0,
+    recommendSongs: []
 
   },
 
-  async fetchMusicBanner(){
-     const res=await getMusicBanner();
-   
-     this.setData({ banners: res.banners })
+  onBannerImageLoad(event) {
+    querySelectThrottle(".banner-image").then(res => {
+
+      this.setData({
+        bannerHeight: res[0].height
+      })
+    })
+  },
+
+  async recommendSongs() {
+    const res = await getPlaylistDetail(3778678)
+    const playlist = res.playlist
+    const recommendSongs = playlist.tracks.slice(0, 6)
+    console.log("recommendSongs", recommendSongs);
+    this.setData({
+      recommendSongs
+    })
+
+  },
+
+  async fetchMusicBanner() {
+    const res = await getMusicBanner();
+    this.setData({
+      banners: res.banners
+    })
   },
 
   /**
@@ -21,6 +56,7 @@ Page({
    */
   onLoad: function (options) {
     this.fetchMusicBanner()
+    this.recommendSongs()
   },
 
   /**

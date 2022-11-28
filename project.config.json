@@ -39,7 +39,12 @@
     "useIsolateContext": true,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
-    "packNpmRelationList": [],
+    "packNpmRelationList": [
+ {
+  "packageJsonPath":"./package.json",
+  "miniprogramNpmDistDir": "./miniprogram_npm/"
+ }
+    ],
     "minifyWXSS": true,
     "disableUseStrict": false,
     "minifyWXML": true,

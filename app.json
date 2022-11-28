@@ -2,7 +2,8 @@
   "pages": [
     "pages/main-music/main-music",
     "pages/main-video/main-video",
-    "pages/detail-video/detail-video"
+    "pages/detail-video/detail-video",
+    "pages/music-player/music-player"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -26,6 +27,5 @@
       }
     ]
   },
-  "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

@@ -1,0 +1,23 @@
+{
+  "name": "qq_music",
+  "version": "1.0.0",
+  "description": "仿qq_music小程序",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codertrs/imitation_qq_music.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codertrs/imitation_qq_music/issues"
+  },
+  "homepage": "https://github.com/codertrs/imitation_qq_music#readme",
+  "dependencies": {
+    "@vant/weapp": "^1.10.7",
+    "underscore": "^1.13.6"
+  }
+}

@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+
+    "song-item-v1":"/components/song-item-v1/song-item-v1"
+  }
 }
