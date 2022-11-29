@@ -35,7 +35,11 @@ Page({
       this.setData({
         hotMenuList: res.playlists
       })
-    })   
+    }) 
+    getSongMenuList("华语").then(res => {
+      this.setData({ recMenuList: res.playlists })
+    })
+    
   },
   
 
