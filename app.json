@@ -3,7 +3,10 @@
     "pages/main-music/main-music",
     "pages/main-video/main-video",
     "pages/detail-video/detail-video",
-    "pages/music-player/music-player"
+    "pages/music-player/music-player",
+    "pages/detail-search/detail-search",
+    "pages/detail-song/detail-song",
+    "pages/detail-menu/detail-menu"
   ],
   "window": {
     "backgroundTextStyle": "light",

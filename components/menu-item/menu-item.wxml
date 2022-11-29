@@ -1,0 +1,12 @@
+<!--components/menu-item/menu-item.wxml-->
+<wxs src="/utils/format.wxs" module="fmt"></wxs>
+
+<view class="menu-item">
+  <view class="top">
+    <image class="image" mode="widthFix" src="{{itemData.coverImgUrl}}"></image>
+    <view class="count">{{fmt.formatCount(itemData.playCount)}}</view>
+</view>
+<view class="bottom">
+    {{itemData.name}}
+  </view>
+</view>

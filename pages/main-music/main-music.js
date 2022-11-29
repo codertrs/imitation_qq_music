@@ -18,11 +18,40 @@ Page({
    * 页面的初始数据
    */
   data: {
+    searchValue: "",
     banners: [],
     bannerHeight: 0,
-    recommendSongs: []
+    recommendSongs: [],
+
+    // 歌单数据
+    hotMenuList:[],
+    recMenuList: [],
 
   },
+
+   fetchSongMenuList() {
+    //  使用异步加载
+    getSongMenuList().then(res=>{
+      this.setData({
+        hotMenuList: res.playlists
+      })
+    })   
+  },
+  
+
+  // 搜索点击监听
+  onSearchClick(){
+    wx.navigateTo({
+      url: '/pages/detail-search/detail-search',
+    })
+  },
+
+//更多
+onRecommendMoreClick(){
+wx.navigateTo({
+  url: '/pages/detail-song/detail-song?type=recommend',
+})
+},
 
   onBannerImageLoad(event) {
     querySelectThrottle(".banner-image").then(res => {
@@ -57,6 +86,8 @@ Page({
   onLoad: function (options) {
     this.fetchMusicBanner()
     this.recommendSongs()
+
+    this.fetchSongMenuList()
   },
 
   /**

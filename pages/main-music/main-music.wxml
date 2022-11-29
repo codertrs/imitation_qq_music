@@ -1,28 +1,27 @@
 <!--pages/main-music/main-music.wxml-->
+<!-- 搜索框 -->
+<van-search value="{{ searchValue }}" background="#fafafa" shape="round" bind:click-input="onSearchClick" placeholder="请输入搜索关键词" />
+
 <!-- 轮播图展示 -->
-<swiper class="banner"       style="height:{{bannerHeight}}px"  circular  indicator-dots>
+<swiper class="banner" style="height:{{bannerHeight}}px" circular indicator-dots>
   <block wx:for="{{banners}}" wx:key="targetId">
     <swiper-item class="item">
-      <image 
-      bindload="onBannerImageLoad" 
-      class="banner-image"
-       mode="widthFix" 
-       src="{{item.imageUrl}}"
-       ></image>
+      <image bindload="onBannerImageLoad" class="banner-image" mode="widthFix" src="{{item.imageUrl}}"></image>
     </swiper-item>
   </block>
 </swiper>
 
 <!-- 推荐歌曲的展示 -->
 <view class="recommend">
-
-<view class="list">
-<block wx:for="{{recommendSongs}}" wx:key="id">
-<song-item-v1 itemData="{{item}}"></song-item-v1>
-
-</block>
+<area-header title="推荐歌曲"  bind:moreclick="onRecommendMoreClick"></area-header>
+  <view class="list">
+    <block wx:for="{{recommendSongs}}" wx:key="id">
+      <song-item-v1 itemData="{{item}}"></song-item-v1>
+    </block>
+  </view>
 </view>
-</view>
 
+<!-- 歌单展示 -->
+<menu-area title="热门歌单" menuList="{{hotMenuList}}"></menu-area>
 
 
