@@ -1,19 +1,42 @@
 // pages/detail-menu/detail-menu.js
+import { getSongMenuTag, getSongMenuList } from "../../services/music"
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    songMenus: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+      this.fetchAllMenuList()
+  },
+
+  async fetchAllMenuList() {
+    const tagRes=await getSongMenuTag()
+    console.log("tagRes",tagRes);
+    const tags = tagRes.tags
+    // 根据tags去获取对应的歌单
+    const allPromises = []
+    for (const tag of tags) {
+      const promise=getSongMenuList(tag.name)
+      allPromises.push(promise)
+    }
+
+  // 统一调用setData
+  Promise.all(allPromises).then(res=>{
+    console.log("res",res);
+    this.setData({
+      songMenus: res
+    })
+  })
 
   },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成

@@ -1,5 +1,9 @@
 // pages/detail-song/detail-song.js
 import rankingStore from "../../store/rankingStore"
+import recommendStore from "../../store/recommendStore"
+import {
+  getPlaylistDetail
+} from "../../services/music"
 Page({
 
   /**
@@ -8,11 +12,11 @@ Page({
   data: {
     type: "ranking",
     key: "newRanking",
-    songInfo: {}
+    songInfo: {},
+    id: ""
   },
 
   handleRanking(value) {
-    console.log("value", value);
     this.setData({
       songInfo: value
     })
@@ -21,6 +25,14 @@ Page({
     })
 
   },
+
+  async fetchMenuSongInfo() {
+    const res = await getPlaylistDetail(this.data.id)
+    this.setData({
+      songInfo: res.playlist
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -34,9 +46,15 @@ Page({
 
     if (type === "ranking") {
       const key = options.key
-      console.log("options", options);
       this.data.key = key
       rankingStore.onState(key, this.handleRanking);
+    } else if (type === "recommend") {
+      recommendStore.onState("recommendSongInfo", this.handleRanking)
+    } else if (type === "menu") {
+      const id = options.id
+      this.data.id = id
+      this.fetchMenuSongInfo()
+
     }
 
 
