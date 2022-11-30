@@ -1,4 +1,5 @@
 // pages/detail-song/detail-song.js
+import rankingStore from "../../store/rankingStore"
 Page({
 
   /**
@@ -7,22 +8,38 @@ Page({
   data: {
     type: "ranking",
     key: "newRanking",
+    songInfo: {}
   },
 
+  handleRanking(value) {
+    console.log("value", value);
+    this.setData({
+      songInfo: value
+    })
+    wx.setNavigationBarTitle({
+      title: value.name,
+    })
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      // type: ranking -> 榜单数据
+    // type: ranking -> 榜单数据
     // type: recommend -> 推荐数据
-    const type=options.type
-    this.setData({type})
-    
-    // if(type==="ranking"){
-    //  const key= options.key
-    // }
-    
-  
+    const type = options.type
+    this.setData({
+      type
+    })
+
+    if (type === "ranking") {
+      const key = options.key
+      console.log("options", options);
+      this.data.key = key
+      rankingStore.onState(key, this.handleRanking);
+    }
+
+
   },
 
   /**

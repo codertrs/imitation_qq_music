@@ -40,10 +40,10 @@
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [
- {
-  "packageJsonPath":"./package.json",
-  "miniprogramNpmDistDir": "./miniprogram_npm/"
- }
+      {
+        "packageJsonPath": "./package.json",
+        "miniprogramNpmDistDir": "./miniprogram_npm/"
+      }
     ],
     "minifyWXSS": true,
     "disableUseStrict": false,
@@ -64,6 +64,8 @@
     "servePath": ""
   },
   "isGameTourist": false,
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
   "condition": {
     "search": {
       "list": []
