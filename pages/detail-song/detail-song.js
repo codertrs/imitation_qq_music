@@ -5,14 +5,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    type: "ranking",
+    key: "newRanking",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+      // type: ranking -> 榜单数据
+    // type: recommend -> 推荐数据
+    const type=options.type
+    this.setData({type})
+    
+    // if(type==="ranking"){
+    //  const key= options.key
+    // }
+    
+  
   },
 
   /**

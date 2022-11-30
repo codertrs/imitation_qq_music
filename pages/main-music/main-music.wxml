@@ -13,7 +13,7 @@
 
 <!-- 推荐歌曲的展示 -->
 <view class="recommend">
-<area-header title="推荐歌曲"  bind:moreclick="onRecommendMoreClick"></area-header>
+  <area-header title="推荐歌曲" bind:moreclick="onRecommendMoreClick"></area-header>
   <view class="list">
     <block wx:for="{{recommendSongs}}" wx:key="id">
       <song-item-v1 itemData="{{item}}"></song-item-v1>
@@ -24,3 +24,14 @@
 <!-- 歌单展示 -->
 <menu-area title="热门歌单" menuList="{{hotMenuList}}"></menu-area>
 <menu-area title="推荐歌单" menuList="{{recMenuList}}"></menu-area>
+
+
+<!-- 5.巅峰榜 -->
+<view class="ranking" wx:if="{{isRankingData}}">
+  <area-header title="巅峰榜" hasMore="{{false}}"></area-header>
+  <view class="ranking-list">
+    <block wx:for="{{rankingInfos}}" wx:key="id">
+      <ranking-item itemData="{{item}}" key="{{index}}"></ranking-item>
+    </block>
+  </view>
+</view>

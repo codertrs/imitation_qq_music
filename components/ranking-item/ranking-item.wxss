@@ -1,0 +1,58 @@
+/* components/ranking-item/ranking-item.wxss */
+
+.ranking-item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12rpx;
+  background-color: #eee;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.album {
+  position: relative;
+  display: flex;
+}
+
+.album .image {
+  width: 220rpx;
+  height: 220rpx;
+  background-size: cover;
+
+}
+
+.album .count {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, .5);
+  padding: 6rpx 10rpx;
+  font-size: 22rpx;
+  border-radius: 12rpx;
+  color: #fff;
+
+}
+
+.content {
+  overflow: hidden;
+  padding: 24rpx;
+}
+
+.content .name {
+  font-size: 34rpx;
+}
+
+.content .list {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+}
+
+
+.content .list .item {
+  color: #333;
+  /* 过长使用省略号显示 */
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-top: 6rpx;
+}

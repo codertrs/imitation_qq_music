@@ -18,6 +18,7 @@
   "homepage": "https://github.com/codertrs/imitation_qq_music#readme",
   "dependencies": {
     "@vant/weapp": "^1.10.7",
+    "hy-event-store": "^1.2.1",
     "underscore": "^1.13.6"
   }
 }
