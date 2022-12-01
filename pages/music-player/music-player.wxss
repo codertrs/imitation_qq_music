@@ -46,6 +46,10 @@
   border-radius: 12rpx;
 }
 
+.info{
+  margin: 30rpx 0;
+}
+
 .info .name{
   font-size: 48rpx;
   font-weight: 700;
@@ -57,9 +61,61 @@
 }
 
 
+.music .progress {
+
+  margin: 40rpx 0 0 0;
+}
+
+.music .progress .slider {
+  margin: 16rpx 8rpx 10rpx 18rpx;
+}
+
+.time{
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+}
+
+.music .lyric{
+  text-align: center;
+  margin: 16rpx 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+
+}
+
+
+/* 按钮 */
+.controls{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12rpx 0;
+}
+
+
+.music .controls .btn {
+  width: 60rpx;
+  height: 60rpx;
+}
+.music .controls .btn.mode {
+  width: 80rpx;
+  height: 80rpx;
+} 
+
+.music .controls .btn.play {
+  width: 140rpx;
+  height: 140rpx;
+}
+
+
 
 
 .lyric-list{
   color: #aaa;
   font-size: 28rpx;
 }
+

@@ -32,7 +32,31 @@ bindchange="onSwiperChange"
       <view class="name">{{currentSong.name}}</view>
       <view class="singer">{{currentSong.ar[0].name}}</view>
     </view>
+
+    <view class="lyric">
+      {{currentLyricText}}
+    </view>
+
+    <view class="progress">
+    <slider  value="{{sliderValue}}" 
+    block-size="12"
+     class="slider" 
+     bindchange="onSliderChange"
+        bindchanging="onSliderChanging"
+     ></slider>
+     <view class="time">
+     <view class="current">{{fmt.formatTime(currentTime)}}</view>
+     <view class="duration">{{fmt.formatTime(durationTime)}}</view>
+     </view>
+    </view>
     
+    <view class="controls">
+      <image class="btn mode" src="/assets/images/player/play_order.png"></image>
+      <image class="btn prev" src="/assets/images/player/play_prev.png"></image>
+      <image class="btn play" bindtap="onPlayOrPauseTap" src="/assets/images/player/play_{{isPlaying ? 'pause':'resume'}}.png"></image>
+      <image class="btn next" src="/assets/images/player/play_next.png"></image>
+      <image class="btn list" src="/assets/images/player/play_music.png"></image>
+    </view>
 
 </swiper-item>
 

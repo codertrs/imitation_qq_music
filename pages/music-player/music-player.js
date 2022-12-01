@@ -7,7 +7,16 @@ import {
   throttle
 } from 'underscore'
 
+import {
+  parseLyric
+} from "../../utils/parse-lyric"
+
 const app = getApp()
+
+// 创建播放器
+const audioContext = wx.createInnerAudioContext()
+
+
 Page({
 
   /**
@@ -21,15 +30,30 @@ Page({
     statusHeight: 0,
 
     id: 0,
-
+    currentLyricText: "",
+    // 当前歌词下标
+    currentLyricIndex: -1,
     currentSong: {},
-
+    //歌词
+    lyricInfos: [],
+    // 歌词当前取值
+    sliderValue: 0,
+    // 开始时长
+    currentTime: 0,
+    //持续时长
     durationTime: 0,
+
+    //是否播放
+    isPlaying: true
   },
 
   // 监听导航栏
-  onNavTabItemTap(event){
-    console.log("event",event);
+  onNavTabItemTap(event) {
+
+    const index = event.currentTarget.dataset.index;
+    this.setData({
+      currentPage: index
+    })
   },
 
   // 监听页面切换
@@ -67,55 +91,96 @@ Page({
       })
     })
 
+    //获取歌词信息
+    getSongLyric(id).then(res => {
+      const lrcString = res.lrc.lyric
+      console.log("lrcString", lrcString);
+      const lyricInfos = parseLyric(lrcString)
+      console.log("解析后", lyricInfos);
+      this.setData({
+        lyricInfos
+      })
+
+    })
+
+    // 播放当前的歌曲
+    audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+    audioContext.autoplay = true
+
+    //监听播放的进度
+    const throttleUpdateProgress = throttle(this.updateProgress, 500, {
+      leading: false,
+      trailing: false
+    })
+
+    // 监听音频播放进度
+    audioContext.onTimeUpdate(() => {
+      //当前 歌曲进度
+      throttleUpdateProgress()
+
+      // 匹配正确的歌词
+      if (!this.data.lyricInfos.length) return
+      let index = this.data.lyricInfos.length - 1
+      for (let i = 0; i < this.data.lyricInfos.length; i++) {
+        const info = this.data.lyricInfos[i]
+        if (info.time > audioContext.currentTime * 1000) {
+          index = i - 1
+          break
+        }
+      }
+      if (index === this.data.currentLyricIndex) return
+      const currentLyricText = this.data.lyricInfos[index].text
+      this.setData({
+        currentLyricText,
+        currentLyricIndex: index
+      })
+
+          // audioContext.onWaiting(()=>{
+        //   audioContext.pause()
+        // })
+
+        // audioContext.onCanplay(()=>{
+        //   audioContext.play()
+        // })
+
+    })
+
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  // 滑块监听
+  onSliderChange(event) {
+    console.log("event", event);
 
+  },
+  updateProgress() {
+    // 1.记录当前的时间
+    const sliderValue = this.data.currentTime / this.data.durationTime * 100
+    this.setData({
+      currentTime: audioContext.currentTime * 1000,
+      sliderValue
+    })
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+  // 暂停/ 开始
+  onPlayOrPauseTap() {
+    // 是否暂停
+    if (!audioContext.paused) {
+      audioContext.pause()
+      this.setData({
+        isPlaying: false
+      })
 
+    } else {
+      audioContext.play()
+      this.setData({
+        isPlaying: true
+      })
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
 
-  },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
 
-  },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })
