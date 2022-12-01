@@ -43,6 +43,10 @@ Page({
     //持续时长
     durationTime: 0,
 
+    //滑块是否改变
+    isSliderChanging: false,
+    //是否等待
+    isWaiting: false,
     //是否播放
     isPlaying: true
   },
@@ -116,7 +120,10 @@ Page({
     // 监听音频播放进度
     audioContext.onTimeUpdate(() => {
       //当前 歌曲进度
-      throttleUpdateProgress()
+      if (!this.data.isSliderChanging && !this.data.isWaiting) {
+        throttleUpdateProgress()
+
+      }
 
       // 匹配正确的歌词
       if (!this.data.lyricInfos.length) return
@@ -135,13 +142,13 @@ Page({
         currentLyricIndex: index
       })
 
-          // audioContext.onWaiting(()=>{
-        //   audioContext.pause()
-        // })
+      audioContext.onWaiting(() => {
+        audioContext.pause()
+      })
 
-        // audioContext.onCanplay(()=>{
-        //   audioContext.play()
-        // })
+      audioContext.onCanplay(() => {
+        audioContext.play()
+      })
 
     })
 
@@ -149,8 +156,35 @@ Page({
 
   // 滑块监听
   onSliderChange(event) {
+
     console.log("event", event);
 
+    // 点击滑块获取对应的value值
+    const value = event.detail.value
+
+    // 计算出要播放的位置时间
+    const currentTime = value / 100 * this.data.durationTime
+
+    // 设置播放器,播放计算出的时间
+    audioContext.seek(currentTime / 1000)
+
+    this.setData({
+      currentTime,
+      isSliderChanging: false,
+      sliderValue: value
+    })
+
+  },
+
+  onSliderChanging(event) {
+    const value = event.detail.value
+    // 根据当前的值, 计算出对应的时间
+    const currentTime = value / 100 * this.data.durationTime
+    this.setData({
+      currentTime
+    })
+    //当前滑块正在滑动
+    this.data.isSliderChanging = true
   },
   updateProgress() {
     // 1.记录当前的时间

@@ -61,6 +61,11 @@ bindchange="onSwiperChange"
 </swiper-item>
 
 <swiper-item>
-  <view class="lyric-list">sadad</view>
+
+  <scroll-view class="lyric-list" scroll-y 	>
+  <block wx:for="{{lyricInfos}}" wx:key="time">
+    <view class="item">{{item.text}}</view>
+  </block>
+  </scroll-view>
 </swiper-item>
 </swiper>

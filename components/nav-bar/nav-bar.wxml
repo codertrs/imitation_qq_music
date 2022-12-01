@@ -4,7 +4,7 @@
   <view class="status" style="height: {{statusHeight}}px;"> </view>
 
     <view class="nav">
-      <view class="left">
+      <view class="left" bindtap="navigateBack">
         <view class="slot">
           <slot name="left"></slot>
         </view>

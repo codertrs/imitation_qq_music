@@ -8,7 +8,7 @@ export function parseLyric(lrcString) {
   for (const lineString of lyricLines) {
     const results = timeReg.exec(lineString)
     if (!results) continue
-    debugger
+    // debugger
     const minute = results[1] * 60 * 1000
     const second = results[2] * 1000
     const mSecond = results[3].length === 2 ? results[3] * 10: results[3] * 1
