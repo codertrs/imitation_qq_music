@@ -11,7 +11,14 @@
       "list": []
     },
     "miniprogram": {
-      "list": []
+      "list": [
+        {
+          "name": "",
+          "pathName": "pages/music-player/music-player",
+          "query": "id=865632948",
+          "scene": null
+        }
+      ]
     }
   }
 }

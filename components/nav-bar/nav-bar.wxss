@@ -1,0 +1,35 @@
+/* components/nav-bar/nav-bar.wxss */
+.nav{
+  height: 44px;
+  display:flex;
+  color: #fff;
+}
+
+/* 内容显示 */
+.left .icon {
+width: 40rpx;
+height: 40rpx;
+}
+
+.left, .right, .center {
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+.nav .left, .nav .right {
+  width: 120rpx;
+}
+
+.nav .center{
+  flex: 1;
+}
+.default {
+  display: none;
+}
+
+/* 使用伪类控制 默认插槽 */
+.slot:empty + .default {
+  display: flex;
+}

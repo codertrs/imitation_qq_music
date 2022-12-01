@@ -1,2 +1,42 @@
 <!--pages/music-player/music-player.wxml-->
-<text>pages/music-player/music-player.wxml</text>
+
+<wxs src="/utils/format.wxs" module="fmt"></wxs>
+
+<!-- 背景-->
+<image class="bg-image" mode="aspectFill" src="{{currentSong.al.picUrl}}"></image>
+<view class="bg-cover"></view>
+
+
+<!--自定义导航栏 -->
+<nav-bar>
+  <view class="tabs" slot="center">
+    <block wx:for="{{pageTitles}}" wx:key="*this">
+      <view bindtap="onNavTabItemTap"
+      class="{{currentPage === index ?'active':''}}"
+       data-index="{{index}}"> {{item}}</view>
+       <view class="divider" wx:if="{{index !== pageTitles.length-1}}">|</view>
+    </block>
+  </view>
+</nav-bar>
+
+<!-- 具体内容 -->
+<swiper style="height: {{contentHeight}}px;"
+current="{{currentPage}}"
+bindchange="onSwiperChange"
+>
+<swiper-item class="music">
+    <view class="album">
+      <image class="image" src="{{currentSong.al.picUrl}}" mode="widthFix"></image>
+    </view>
+    <view class="info">
+      <view class="name">{{currentSong.name}}</view>
+      <view class="singer">{{currentSong.ar[0].name}}</view>
+    </view>
+    
+
+</swiper-item>
+
+<swiper-item>
+  <view class="lyric-list">sadad</view>
+</swiper-item>
+</swiper>
