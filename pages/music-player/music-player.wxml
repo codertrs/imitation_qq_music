@@ -51,11 +51,11 @@ bindchange="onSwiperChange"
     </view>
     
     <view class="controls">
-      <image class="btn mode" src="/assets/images/player/play_order.png"></image>
-      <image class="btn prev" src="/assets/images/player/play_prev.png"></image>
+      <image class="btn mode" bindtap="onModeBtnTap" src="/assets/images/player/play_{{playModeName}}.png"></image>
+      <image class="btn prev" bindtap="onPrevBtnTap" src="/assets/images/player/play_prev.png"></image>
       <image class="btn play" bindtap="onPlayOrPauseTap" src="/assets/images/player/play_{{isPlaying ? 'pause':'resume'}}.png"></image>
-      <image class="btn next" src="/assets/images/player/play_next.png"></image>
-      <image class="btn list" src="/assets/images/player/play_music.png"></image>
+      <image class="btn next" bindtap="onNextBtnTap" src="/assets/images/player/play_next.png"></image>
+      <image class="btn list"   src="/assets/images/player/play_music.png"></image>
     </view>
 
 </swiper-item>

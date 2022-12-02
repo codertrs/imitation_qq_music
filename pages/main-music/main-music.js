@@ -7,7 +7,7 @@ import {
 import querySelect from "../../utils/query.select"
 import rankingStore from "../../store/rankingStore"
 import recommendStore from "../../store/recommendStore"
-
+import playerStore from "../../store/playerStore"
 import {
   throttle
 } from "underscore"
@@ -65,6 +65,14 @@ Page({
     wx.navigateTo({
       url: '/pages/detail-song/detail-song?type=recommend',
     })
+  },
+
+  // 共享歌曲
+  onSongItemTap(event) {
+    console.log("eventsss", event);
+    const index = event.currentTarget.dataset.index;
+    playerStore.setState("playSongList", this.data.recommendSongs)
+    playerStore.setState("playSongIndex", index)
   },
 
   onBannerImageLoad(event) {
@@ -134,10 +142,10 @@ Page({
     })
   },
 
-  handleRecommendSongs(value){
-    if(!value.tracks) return 
+  handleRecommendSongs(value) {
+    if (!value.tracks) return
     this.setData({
-      recommendSongs:value.tracks.slice(0, 6)
+      recommendSongs: value.tracks.slice(0, 6)
     })
   },
 
@@ -160,7 +168,7 @@ Page({
     rankingStore.onState("upRanking", this.handleUpRanking)
 
     recommendStore.dispatch("fetchRecommendSongsAction")
-    recommendStore.onState("recommendSongInfo",this.handleRecommendSongs)
+    recommendStore.onState("recommendSongInfo", this.handleRecommendSongs)
 
     // 获取屏幕尺寸
     this.setData({

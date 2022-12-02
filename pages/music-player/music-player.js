@@ -10,13 +10,13 @@ import {
 import {
   parseLyric
 } from "../../utils/parse-lyric"
-
+import playerStore from "../../store/playerStore"
 const app = getApp()
 
 // 创建播放器
 const audioContext = wx.createInnerAudioContext()
 
-
+const modeNames = ["order", "repeat", "random"]
 Page({
 
   /**
@@ -52,6 +52,15 @@ Page({
 
     // 滚动距离
     lyricScrollTop: 0,
+
+    // 播放歌曲列表
+    playSongList: [],
+    //播放歌曲索引
+    playSongIndex: 0,
+
+    playModeIndex: 0, // 0:顺序播放 1:单曲循环 2:随机播放
+    playModeName: "order"
+
   },
 
   // 监听导航栏
@@ -84,6 +93,16 @@ Page({
 
     // 获取传入的id
     const id = options.id
+    this.setupPlaySong(id)
+
+    //获取store共享歌曲
+    playerStore.onStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler)
+
+  },
+
+
+  // 播放歌曲
+  setupPlaySong(id) {
     this.setData({
       id
     })
@@ -101,9 +120,8 @@ Page({
     //获取歌词信息
     getSongLyric(id).then(res => {
       const lrcString = res.lrc.lyric
-      console.log("lrcString", lrcString);
       const lyricInfos = parseLyric(lrcString)
-      console.log("解析后", lyricInfos);
+      // console.log("解析后", lyricInfos);
       this.setData({
         lyricInfos
       })
@@ -125,9 +143,7 @@ Page({
       //当前 歌曲进度
       if (!this.data.isSliderChanging && !this.data.isWaiting) {
         throttleUpdateProgress()
-
       }
-
       // 匹配正确的歌词
       if (!this.data.lyricInfos.length) return
       let index = this.data.lyricInfos.length - 1
@@ -153,10 +169,16 @@ Page({
       audioContext.onCanplay(() => {
         audioContext.play()
       })
+      audioContext.onEnded(()=>{
+        // 单曲循环  不需切换下一首
+        if(audioContext.loop) return
+        
+        this.changeNewSong()
+      })
 
     })
-
   },
+
 
   // 滑块监听
   onSliderChange(event) {
@@ -217,8 +239,101 @@ Page({
     }
   },
 
+  //模式切换
+  onModeBtnTap() {
+    // 1.计算新的模式
+    let modeIndex = this.data.playModeIndex
+    modeIndex = modeIndex + 1
+    if (modeIndex === 3) modeIndex = 0
+
+    if (modeIndex === 1) {
+      audioContext.loop = true
+    } else {
+      audioContext.loop = false
+    }
+    // 2.保存当前的模式
+    this.setData({
+      playModeIndex: modeIndex,
+      playModeName: modeNames[modeIndex]
+    })
+
+  },
+  // 上一首
+  onPrevBtnTap() {
+    this.changeNewSong(false)
+  },
+  //下一首
+  onNextBtnTap() {
+    this.changeNewSong()
+  },
 
 
+  //切换歌曲
+  changeNewSong(isNext = true) {
+    // 1.获取之前的数据
+    const length = this.data.playSongList.length;
+    let index = this.data.playSongIndex
+
+    // 计算最新索引
+    switch(this.data.playModeIndex){
+      case 1 :
+        break;
+      case 0 :
+        index = isNext ? index + 1 : index - 1
+        console.log("length", length, index);
+        //索引达到最大 回到起始位置
+        if (index === length) index = 0
+        //索引最小 回到数组末尾
+        if (index === -1) index = length - 1
+        break
+      case 2 :
+        index = Math.floor(Math.random() * length)
+        break
+    }
+
+
+    // 根据当前索引获取当前歌曲的信息
+    const newSong = this.data.playSongList[index]
+
+    //数据回到初始状态
+    this.setData({
+      currentSong: {},
+      sliderValue: 0,
+      currentTime: 0,
+      durationTime: 0
+    })
+
+    //进行播放
+    this.setupPlaySong(newSong.id)
+
+    // 保存最新的索引
+    playerStore.setState("playSongIndex", index)
+
+
+  },
+
+  // store数据共享
+  getPlaySongInfosHandler({
+    playSongList,
+    playSongIndex
+  }) {
+    console.log("playSongList", playSongList);
+    if (playSongList) {
+      this.setData({
+        playSongList
+      })
+    }
+    if (playSongIndex !== undefined) {
+      this.setData({
+        playSongIndex
+      })
+    }
+
+  },
+
+  onUnload() {
+    playerStore.offStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler)
+  }
 
 
 })
