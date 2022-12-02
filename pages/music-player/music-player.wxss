@@ -127,3 +127,13 @@
   line-height: 35px;
 }
 
+/* 清除滚动条样式 */
+.lyric-list ::-webkit-scrollbar {
+  display: none;
+}
+
+/* 歌词高亮 */
+.lyric-list .item.active {
+  color: #0f0;
+  font-size: 32rpx;
+}

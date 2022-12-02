@@ -48,7 +48,10 @@ Page({
     //是否等待
     isWaiting: false,
     //是否播放
-    isPlaying: true
+    isPlaying: true,
+
+    // 滚动距离
+    lyricScrollTop: 0,
   },
 
   // 监听导航栏
@@ -139,6 +142,7 @@ Page({
       const currentLyricText = this.data.lyricInfos[index].text
       this.setData({
         currentLyricText,
+        lyricScrollTop: 35 * index,
         currentLyricIndex: index
       })
 
