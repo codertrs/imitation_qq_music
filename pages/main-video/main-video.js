@@ -72,15 +72,31 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh:async function () {
 
+    //清空之前数据
+    this.setData({
+      videoList: []
+    })
+    this.data.offset = 0
+    this.data.hasMore = true
+
+      //  重新请求新的数据
+       await this.fetchTopMV()
+
+       //停止下拉刷新
+      wx.stopPullDownRefresh()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+  // 判断是否有更多的数据
+  if (!this.data.hasMore) return
 
+  // 如果有更多的数据, 再请求新的数据
+  this.fetchTopMV()
   },
 
   /**
