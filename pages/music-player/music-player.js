@@ -11,7 +11,7 @@ import {
   parseLyric
 } from "../../utils/parse-lyric"
 import playerStore from "../../store/playerStore"
-const app = getApp()
+const app = getApp() 
 
 // 创建播放器
 const audioContext = wx.createInnerAudioContext()
@@ -58,6 +58,9 @@ Page({
     //播放歌曲索引
     playSongIndex: 0,
 
+    //是否第一次播放
+    isFirstPlay: true,
+
     playModeIndex: 0, // 0:顺序播放 1:单曲循环 2:随机播放
     playModeName: "order"
 
@@ -65,7 +68,6 @@ Page({
 
   // 监听导航栏
   onNavTabItemTap(event) {
-
     const index = event.currentTarget.dataset.index;
     this.setData({
       currentPage: index
@@ -83,8 +85,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("options", options);
-
     // 获取设备信息
     this.setData({
       statusHeight: app.globalData.statusHeight,
@@ -110,7 +110,6 @@ Page({
     // 请求歌曲相关的数据
     // 根据id获取歌曲的详情
     getSongDetail(id).then(res => {
-      console.log("res", res);
       this.setData({
         currentSong: res.songs[0],
         durationTime: res.songs[0].dt
@@ -133,33 +132,38 @@ Page({
     audioContext.autoplay = true
 
     //监听播放的进度
-    const throttleUpdateProgress = throttle(this.updateProgress, 500, {
-      leading: false,
-      trailing: false
-    })
-
-    // 监听音频播放进度
-    audioContext.onTimeUpdate(() => {
-      //当前 歌曲进度
-      if (!this.data.isSliderChanging && !this.data.isWaiting) {
-        throttleUpdateProgress()
-      }
-      // 匹配正确的歌词
-      if (!this.data.lyricInfos.length) return
-      let index = this.data.lyricInfos.length - 1
-      for (let i = 0; i < this.data.lyricInfos.length; i++) {
-        const info = this.data.lyricInfos[i]
-        if (info.time > audioContext.currentTime * 1000) {
-          index = i - 1
-          break
+    if(this.data.isFirstPlay){
+      console.log("第一次进入");
+      this.data.isFirstPlay = false
+      const throttleUpdateProgress = throttle(this.updateProgress, 500, {
+        leading: false,
+        trailing: false 
+      })
+  
+      // 监听音频播放进度
+      audioContext.onTimeUpdate(() => {
+        //当前 歌曲进度
+        if (!this.data.isSliderChanging && !this.data.isWaiting) {
+          throttleUpdateProgress()
         }
-      }
-      if (index === this.data.currentLyricIndex) return
-      const currentLyricText = this.data.lyricInfos[index].text
-      this.setData({
-        currentLyricText,
-        lyricScrollTop: 35 * index,
-        currentLyricIndex: index
+        // 匹配正确的歌词
+        if (!this.data.lyricInfos.length) return
+        let index = this.data.lyricInfos.length - 1
+        for (let i = 0; i < this.data.lyricInfos.length; i++) {
+          const info = this.data.lyricInfos[i]
+          if (info.time > audioContext.currentTime * 1000) {
+            index = i - 1
+            break
+          }
+        }
+        if (index === this.data.currentLyricIndex) return
+        const currentLyricText = this.data.lyricInfos[index].text
+        this.setData({
+          currentLyricText,
+          lyricScrollTop: 35 * index,
+          currentLyricIndex: index
+        })
+  
       })
 
       audioContext.onWaiting(() => {
@@ -176,14 +180,18 @@ Page({
         this.changeNewSong()
       })
 
-    })
+    }
+
   },
 
 
   // 滑块监听
   onSliderChange(event) {
+    this.data.isWaiting = true
 
-    console.log("event", event);
+    setTimeout(() => {
+      this.data.isWaiting = false
+    }, 1500)
 
     // 点击滑块获取对应的value值
     const value = event.detail.value
@@ -195,14 +203,15 @@ Page({
     audioContext.seek(currentTime / 1000)
 
     this.setData({
-      currentTime,
+      currentTime: currentTime,
       isSliderChanging: false,
       sliderValue: value
     })
 
   },
 
-  onSliderChanging(event) {
+  onSliderChanging: throttle((event)=>{
+    console.log("拖动过程中触发次数");
     const value = event.detail.value
     // 根据当前的值, 计算出对应的时间
     const currentTime = value / 100 * this.data.durationTime
@@ -211,7 +220,9 @@ Page({
     })
     //当前滑块正在滑动
     this.data.isSliderChanging = true
-  },
+  },100) ,
+  
+ 
   updateProgress() {
     // 1.记录当前的时间
     const sliderValue = this.data.currentTime / this.data.durationTime * 100
@@ -275,12 +286,12 @@ Page({
     let index = this.data.playSongIndex
 
     // 计算最新索引
-    switch(this.data.playModeIndex){
+    switch (this.data.playModeIndex){
       case 1 :
-        break;
+        // break;
       case 0 :
         index = isNext ? index + 1 : index - 1
-        console.log("length", length, index);
+        // console.log("length", length, index);
         //索引达到最大 回到起始位置
         if (index === length) index = 0
         //索引最小 回到数组末尾
@@ -317,7 +328,7 @@ Page({
     playSongList,
     playSongIndex
   }) {
-    console.log("playSongList", playSongList);
+    // console.log("playSongList", playSongList);
     if (playSongList) {
       this.setData({
         playSongList

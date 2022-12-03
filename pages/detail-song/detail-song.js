@@ -4,6 +4,7 @@ import recommendStore from "../../store/recommendStore"
 import {
   getPlaylistDetail
 } from "../../services/music"
+import playerStore from "../../store/playerStore"
 Page({
 
   /**
@@ -58,6 +59,11 @@ Page({
     }
 
 
+  },
+
+  // 保存歌曲到store
+  onSongItemTap(){
+    playerStore.setState("playSongList",this.data.songInfo.tracks)
   },
 
   /**
