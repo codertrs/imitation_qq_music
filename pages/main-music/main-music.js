@@ -170,6 +170,9 @@ Page({
     recommendStore.dispatch("fetchRecommendSongsAction")
     recommendStore.onState("recommendSongInfo", this.handleRecommendSongs)
 
+    // 获取歌曲列表数据
+    
+
     // 获取屏幕尺寸
     this.setData({
       screenWidth: app.globalData.screenWidth
